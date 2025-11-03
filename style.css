@@ -30,11 +30,12 @@ body{
 }
 
 .logo-img {
-  height: 64px;
+  max-height: 40px;
   width: auto;
   object-fit: contain;
   display: block;
   margin: 0 auto;
+  max-width: 180px;
 }
 .title{
   font-weight:400;
@@ -121,6 +122,7 @@ body{
   .page{margin:12px; padding:8px}
   .chat{height:180px}
   .logo-img {
-    height: 44px;
+    max-height: 28px;
+    max-width: 120px;
   }
 }
