@@ -17,14 +17,24 @@ body{
 }
 .page{
   max-width:900px;
-  margin:48px auto;
-  padding:24px;
+  margin:24px auto;
+  padding:18px;
 }
 .brand{ text-align:center; margin-bottom:16px }
 .logo{
-  font-weight:700;
-  font-size:48px;
-  letter-spacing:2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  margin-bottom: 8px;
+}
+
+.logo-img {
+  height: 64px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 .title{
   font-weight:400;
@@ -39,7 +49,7 @@ body{
   box-shadow:0 2px 6px rgba(0,0,0,0.02);
 }
 .chat{
-  height:380px; /* adjust as needed */
+  height:300px;
   overflow:auto;
   padding:8px;
   display:flex;
@@ -108,7 +118,9 @@ body{
 
 /* small screens */
 @media (max-width:600px){
-  .page{margin:20px; padding:12px}
-  .logo{font-size:36px}
-  .chat{height:320px}
+  .page{margin:12px; padding:8px}
+  .chat{height:180px}
+  .logo-img {
+    height: 44px;
+  }
 }
