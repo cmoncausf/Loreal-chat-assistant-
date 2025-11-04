@@ -17,6 +17,27 @@
       <h1 class="title">Smart Routine & Product Advisor</h1>
     </header>
 
+    <!-- Product Search Bar -->
+    <section class="product-search-wrap" style="margin-bottom:18px;">
+      <form id="productSearchForm" class="input-row" autocomplete="off" style="max-width:500px;margin:0 auto;">
+        <input id="productSearch" type="text" placeholder="Search products…" aria-label="Search products" />
+        <select id="categorySearch" aria-label="Filter by category">
+          <option value="All Categories">All Categories</option>
+          <option value="Cleanser">Cleanser</option>
+          <option value="Moisturizer">Moisturizer</option>
+          <option value="Serum">Serum</option>
+          <option value="Eye Care">Eye Care</option>
+        </select>
+      </form>
+    </section>
+
+    <!-- Product Grid and Selection -->
+    <section class="product-grid-wrap" style="margin-bottom:18px;">
+      <div id="productGrid" class="product-grid"></div>
+      <div id="selectedList" style="margin-top:18px;"></div>
+      <button id="generate" style="margin-top:12px;background:#e4002b;color:#fff;border:none;border-radius:4px;padding:10px 24px;font-weight:600;cursor:pointer;">Generate Routine</button>
+    </section>
+
     <section class="chat-wrap">
       <div id="chat" class="chat">
         <!-- messages will be appended here -->
