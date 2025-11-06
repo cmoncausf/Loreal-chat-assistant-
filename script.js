@@ -137,7 +137,7 @@ Your answers should:
 
   function toggleProduct(name, el) {
     if (selectedProducts.includes(name)) {
-      selectedProducts = selectedProducts.filter(p => p !== name);
+    const systemPrompt = `You are a friendly, professional L'Oréal product and routine advisor. Answer concisely, in a helpful tone. Include product suggestions when relevant and guide users on application order. Use emojis sparingly to feel warm but professional.`;
       el.classList.remove('selected');
     } else {
       selectedProducts.push(name);
@@ -149,6 +149,7 @@ Your answers should:
 
   function renderSelected() {
     if (!selectedList) return;
+  // ...existing code...
     if (selectedProducts.length === 0) {
       selectedList.innerHTML = '<em>No products selected.</em>';
       return;
@@ -191,14 +192,36 @@ Your answers should:
 
   // Chat logic
   const messages = [
+    // Maintain conversation history
     { role: 'system', content: systemPrompt }
   ];
+
+  // Render markdown to HTML (basic)
+  function renderMarkdown(md) {
+    // Bold
+    md = md.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // Lists
+    md = md.replace(/(^|\n)(\d+\.) (.+)/g, '$1<li>$2 $3</li>');
+    // Paragraphs
+    md = md.replace(/\n{2,}/g, '</p><p>');
+    // Line breaks
+    md = md.replace(/\n/g, '<br>');
+    // Wrap lists in <ul>
+    md = md.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+    return `<p>${md}</p>`;
+  }
 
   function appendMessage(text, cls='assistant'){
     if (!chatEl) return;
     const div = document.createElement('div');
     div.className = `message ${cls}`;
-    div.textContent = text;
+    if(cls === 'assistant') {
+      div.innerHTML = renderMarkdown(text);
+    } else {
+      // Only add 'You:' prefix if not already present
+      const cleanText = text.startsWith('You:') ? text.slice(4).trim() : text;
+      div.innerHTML = `<strong>You:</strong> ${cleanText}`;
+    }
     chatEl.appendChild(div);
     chatEl.scrollTop = chatEl.scrollHeight;
   }
@@ -241,29 +264,32 @@ Your answers should:
       e.preventDefault();
       const text = promptInput.value.trim();
       if (!text) return;
+      // Add user message to history and UI
+      messages.push({ role: 'user', content: text });
       appendMessage('You: ' + text, 'user');
       promptInput.value = '';
-      messages.push({ role: 'user', content: text });
-        setLoading(true);
-        try {
-          // Get OpenAI response
-          const reply = await queryWorker(messages);
-          appendMessage(reply, 'assistant');
-          messages.push({ role: 'assistant', content: reply });
-
-          // Get L'Oréal-focused online search results
-          const searchResults = await lorealSearch(text);
-          appendMessage('Online sources:', 'assistant');
-          const div = document.createElement('div');
-          div.innerHTML = searchResults;
-          chatEl.appendChild(div);
-          chatEl.scrollTop = chatEl.scrollHeight;
-        } catch (err) {
-          appendMessage('Sorry, something went wrong. Please try again.', 'assistant');
-          console.error(err);
-        } finally {
-          setLoading(false);
-        }
+      setLoading(true);
+      // Show thinking indicator
+      const thinkingDiv = document.createElement('div');
+      thinkingDiv.className = 'message assistant';
+      thinkingDiv.innerHTML = '<em>...</em>';
+      chatEl.appendChild(thinkingDiv);
+      chatEl.scrollTop = chatEl.scrollHeight;
+      try {
+        // Get OpenAI response with full history
+        const reply = await queryWorker(messages);
+        // Remove thinking indicator
+        thinkingDiv.remove();
+        // Add assistant message to history and UI
+        messages.push({ role: 'assistant', content: reply });
+        appendMessage(reply, 'assistant');
+      } catch (err) {
+        thinkingDiv.remove();
+        appendMessage('Sorry, something went wrong. Please try again.', 'assistant');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     });
   }
 
