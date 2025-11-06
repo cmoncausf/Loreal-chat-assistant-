@@ -36,27 +36,32 @@ Your answers should:
     {
       name: 'L’Oréal Paris Revitalift Triple Power Day Lotion SPF 30',
       category: 'Moisturizer',
-      img: 'https://www.lorealparisusa.com/-/media/project/loreal/brand-sites/oap/americas/us/products/skin-care/moisturizer/revitalift-triple-power-day-lotion-spf-30/3600523618144_packshot.png',
+      img: 'cream.jpg',
+      description: `Revitalift Triple Power SPF 30 Day Cream is an anti-aging face moisturizer, formulated with 3 of the top derm-recommended ingredients: Pro-Retinol, Hyaluronic Acid and Vitamin C to reduce wrinkles, firm and brighten in 1 week. After use skin feels smoother, softer, refreshed. Dermatologist tested, suitable for sensitive skin. Paraben free, mineral oil free, dye free, allergy tested. Layers well under makeup. Also available in original fragrance and fragrance free.`
     },
     {
       name: 'L’Oréal Paris Micellar Cleansing Water Complete Cleanser',
       category: 'Cleanser',
-      img: 'https://www.lorealparisusa.com/-/media/project/loreal/brand-sites/oap/americas/us/products/skin-care/cleanser/micellar-cleansing-water-complete-cleanser/3600523618151_packshot.png',
+      img: 'cleansingwater.webp',
+      description: 'Removes makeup, cleanses, and soothes. No harsh rubbing or rinsing.'
     },
     {
       name: 'L’Oréal Paris Age Perfect Hydra Nutrition Honey Eye Gel',
       category: 'Eye Care',
-      img: 'https://www.lorealparisusa.com/-/media/project/loreal/brand-sites/oap/americas/us/products/skin-care/eye-care/age-perfect-hydra-nutrition-honey-eye-gel/3600523618168_packshot.png',
+      img: 'shopping.webp',
+      description: `Ultra-gentle eye gel with Manuka Honey Extract and nurturing oils, infused with calcium and antioxidants. The de-puffing rollerball wand and cooling formula cushion mature, very dry skin with nourishing moisture. Massages away the look of puffiness, bags, and dark circles to leave eyes looking more youthful and feeling refreshed. Eye treatment gel for mature, very dry skin. Rollerball applicator massages away the look of puffiness, bags, and dark circles. In 8 weeks, puffy bags appear reduced, dark circles appear brighter, eyes look more youthful. Paraben free, mineral oil free, non-sticky. Suitable for sensitive skin. Money back guarantee, up to $24.99 for L'Oreal Paris Age Perfect (sales tax and shipping not refunded; restrictions apply). Size: 0.5 fl oz.`
     },
     {
       name: 'L’Oréal Paris Pure-Clay Cleanser Detox & Brighten',
       category: 'Cleanser',
-      img: 'https://www.lorealparisusa.com/-/media/project/loreal/brand-sites/oap/americas/us/products/skin-care/cleanser/pure-clay-cleanser-detox-and-brighten/3600523618175_packshot.png',
+      img: 'pure-clay.webp',
+      description: `Skin Experts created our first range of clay-to-mousse daily cleansers that leave skin looking perfectly clear. Each cleanser is powered by 3 different clays in their pure form and enhanced with a nature-sourced ingredient. Indulgently formulated to seamlessly transform from clay-to-mousse, Pure Clay Cleansers remove everyday impurities without over drying. Pure Clay Cleanser Detox Brighten, with 3 pure clays and charcoal, detoxes and brightens dull, tired skin. Gently cleanses away impurities, energizes dull skin, and brightens. With continued use, skin's overall quality is improved; dull skin appears more radiant and luminous; skin looks more beautiful. Size: 4.4 fl oz.`
     },
     {
       name: 'L’Oréal Paris Collagen Moisture Filler Day/Night Cream',
       category: 'Moisturizer',
-      img: 'https://www.lorealparisusa.com/-/media/project/loreal/brand-sites/oap/americas/us/products/skin-care/moisturizer/collagen-moisture-filler-day-night-cream/3600523618182_packshot.png',
+      img: 'collagen.webp',
+      description: `A dose of intense hydration and natural Collagen in Collagen Filler Moisture Day Lotion and Day/Night Cream is essential for younger-looking skin. Rich moisture instantly restores skin's cushion and bounce. Over time, the powerful natural Collagen helps fill in lines and wrinkles, leaving your skin smooth and plump. Use it for a complete collagen-infused skincare regimen. In just 4 weeks, 78% of women saw filled in wrinkles*. *Based on a consumer evaluation of 50 women. Skin-plumping Collagen face cream restores moisture, skin's cushion and bounce in face. Intense hydration face cream that helps fill in lines and wrinkles. Smooths wrinkles for smoother, plumper face skin. Collagen face cream, dermatologist-tested for gentleness. Packaging may vary; what you receive may not be what is reflected on site.`
     }
   ];
 
@@ -71,30 +76,36 @@ Your answers should:
         <img src="${p.img}" alt="${p.name}" style="height:100px;">
         <h4>${p.name}</h4>
         <small>${p.category}</small>
-        <button class="desc-btn" style="margin-top:8px;">Details</button>
-        <div class="desc-modal" style="display:none;position:absolute;z-index:10;background:#fff;border:1px solid #ccc;padding:12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);width:260px;max-width:90vw;left:50%;transform:translateX(-50%);">
+        <button class="desc-btn" style="margin-top:8px;">${div.classList.contains('show-desc') ? 'Hide Details' : 'Details'}</button>
+        <button class="add-btn" style="margin-top:8px;background:#e4002b;color:#fff;border:none;border-radius:4px;padding:6px 12px;cursor:pointer;">${selectedProducts.includes(p.name) ? 'Remove from Routine' : 'Add to Routine'}</button>
+        <div class="desc-expanded" style="display:none;margin-top:12px;background:#fff;border:1px solid #ccc;padding:12px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
           <strong>${p.name}</strong><br>
           <span>${p.description || 'No description available.'}</span>
-          <br><button class="close-desc" style="margin-top:8px;">Close</button>
         </div>
       `;
       if (selectedProducts.includes(p.name)) div.classList.add('selected');
-      div.onclick = (e) => {
-        // Only toggle if not clicking the details button
-        if (e.target.classList.contains('desc-btn') || e.target.classList.contains('close-desc')) return;
-        toggleProduct(p.name, div);
-      };
-      // Details button logic
+      // Add to Routine button logic
+      const addBtn = div.querySelector('.add-btn');
+      if (addBtn) {
+        addBtn.onclick = (e) => {
+          e.stopPropagation();
+          toggleProduct(p.name, div);
+          addBtn.textContent = selectedProducts.includes(p.name) ? 'Remove from Routine' : 'Add to Routine';
+        };
+      }
+      // Details button logic (expanded card)
       const descBtn = div.querySelector('.desc-btn');
-      const descModal = div.querySelector('.desc-modal');
-      if (descBtn && descModal) {
+      const descExpanded = div.querySelector('.desc-expanded');
+      if (descBtn && descExpanded) {
         descBtn.onclick = (ev) => {
           ev.stopPropagation();
-          descModal.style.display = 'block';
-        };
-        descModal.querySelector('.close-desc').onclick = (ev) => {
-          ev.stopPropagation();
-          descModal.style.display = 'none';
+          if (descExpanded.style.display === 'none') {
+            descExpanded.style.display = 'block';
+            descBtn.textContent = 'Hide Details';
+          } else {
+            descExpanded.style.display = 'none';
+            descBtn.textContent = 'Details';
+          }
         };
       }
       grid.appendChild(div);
@@ -202,11 +213,28 @@ Your answers should:
     const res = await fetch(workerUrl, {
       method: 'POST',
       headers: { 'Content-Type':'application/json' },
-      body: JSON.stringify({ messages })
+      body: JSON.stringify({
+        messages,
+        max_tokens: 300, // concise answers
+        temperature: 0.3 // professional, focused, less verbose
+      })
     });
     const data = await res.json();
     return data.choices?.[0]?.message?.content || 'No response.';
   }
+
+    // L'Oréal-focused online search using Cloudflare Worker
+    async function lorealSearch(query) {
+      const searchRes = await fetch(workerUrl + `?q=${encodeURIComponent(query)}`);
+      const data = await searchRes.json();
+      if (!data.results || data.results.length === 0) {
+        return '<em>No relevant L\'Oréal information found online.</em>';
+      }
+      // Format results with clickable links
+      return data.results.map(item =>
+        `<p><a href="${item.url}" target="_blank">${item.title}</a><br>${item.snippet}</p>`
+      ).join('');
+    }
 
   if (form && promptInput && chatEl) {
     form.addEventListener('submit', async e => {
@@ -216,9 +244,26 @@ Your answers should:
       appendMessage('You: ' + text, 'user');
       promptInput.value = '';
       messages.push({ role: 'user', content: text });
-      const reply = await queryWorker(messages);
-      appendMessage(reply, 'assistant');
-      messages.push({ role: 'assistant', content: reply });
+        setLoading(true);
+        try {
+          // Get OpenAI response
+          const reply = await queryWorker(messages);
+          appendMessage(reply, 'assistant');
+          messages.push({ role: 'assistant', content: reply });
+
+          // Get L'Oréal-focused online search results
+          const searchResults = await lorealSearch(text);
+          appendMessage('Online sources:', 'assistant');
+          const div = document.createElement('div');
+          div.innerHTML = searchResults;
+          chatEl.appendChild(div);
+          chatEl.scrollTop = chatEl.scrollHeight;
+        } catch (err) {
+          appendMessage('Sorry, something went wrong. Please try again.', 'assistant');
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
     });
   }
 
