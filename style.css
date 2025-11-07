@@ -1,3 +1,43 @@
+/* RTL support */
+html[dir="rtl"] body, html[dir="rtl"] .page {
+  direction: rtl;
+}
+
+html[dir="rtl"] .chat {
+  flex-direction: column;
+}
+
+html[dir="rtl"] .message.user {
+  align-self: flex-start;
+  border-left: none;
+  border-right: 4px solid var(--accent);
+  padding: 18px 16px 18px 18px;
+}
+
+html[dir="rtl"] .message.assistant {
+  align-self: flex-end;
+}
+
+html[dir="rtl"] .product-grid {
+  direction: rtl;
+}
+
+html[dir="rtl"] .product {
+  text-align: right;
+}
+
+html[dir="rtl"] .desc-expanded {
+  text-align: right;
+}
+
+html[dir="rtl"] .selectedList ul {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+html[dir="rtl"] .input-row {
+  flex-direction: row-reverse;
+}
 /* Basic L'Oréal-inspired clean layout */
 :root{
   --bg:#ffffff;
