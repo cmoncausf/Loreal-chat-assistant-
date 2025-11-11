@@ -247,16 +247,39 @@ Your answers should:
   }
 
     // L'Oréal-focused online search using Cloudflare Worker
+    function formatCitations(citations) {
+      // Replace URLs with clickable links
+      const withLinks = citations.replace(
+        /(https?:\/\/[^\s\)]+)/g,
+        url => `<a href="${url}" target="_blank">${url}</a>`
+      );
+      // Split into paragraphs and wrap in <p> tags
+      return withLinks
+        .split('\n\n')
+        .filter(para => para.trim() !== '')
+        .map(para => `<p>${para}</p>`)
+        .join('');
+    }
+
     async function lorealSearch(query) {
       const searchRes = await fetch(workerUrl + `?q=${encodeURIComponent(query)}`);
       const data = await searchRes.json();
       if (!data.results || data.results.length === 0) {
-        return '<em>No relevant L\'Oréal information found online.</em>';
+        // Fallback: show official L'Oréal links
+        return `
+          <p>No relevant L'Oréal information found online. Here are some official sources you may find useful:</p>
+          <ul>
+            <li><a href="https://www.loreal.com/en/" target="_blank">L'Oréal Official Website</a></li>
+            <li><a href="https://www.lorealparisusa.com/products" target="_blank">L'Oréal Paris Product Catalog</a></li>
+            <li><a href="https://www.loreal.com/en/science-and-technology/" target="_blank">L'Oréal Science & Research</a></li>
+          </ul>
+        `;
       }
-      // Format results with clickable links
-      return data.results.map(item =>
-        `<p><a href="${item.url}" target="_blank">${item.title}</a><br>${item.snippet}</p>`
-      ).join('');
+      // Format results with clickable links and paragraphs
+      const raw = data.results.map(item =>
+        `<a href="${item.url}" target="_blank">${item.title}</a><br>${item.snippet}`
+      ).join('\n\n');
+      return formatCitations(raw);
     }
 
   if (form && promptInput && chatEl) {
@@ -278,11 +301,13 @@ Your answers should:
       try {
         // Get OpenAI response with full history
         const reply = await queryWorker(messages);
+        // Get real-world info with links/citations
+        const citations = await lorealSearch(text);
         // Remove thinking indicator
         thinkingDiv.remove();
         // Add assistant message to history and UI
         messages.push({ role: 'assistant', content: reply });
-        appendMessage(reply, 'assistant');
+  appendMessage(reply + '<hr><strong>Sources & Links:</strong><br>' + citations, 'assistant');
       } catch (err) {
         thinkingDiv.remove();
         appendMessage('Sorry, something went wrong. Please try again.', 'assistant');

@@ -57,8 +57,8 @@ body{
 }
 .page{
   max-width:900px;
-  margin:48px auto;
-  padding:24px;
+    margin:8px auto;
+    padding:8px;
 }
 .brand{ text-align:center; margin-bottom:16px }
 .logo{
@@ -86,26 +86,26 @@ body{
 /* Updated single blocks for chat UI */
 .message.user{
   align-self:flex-end;
-  background:#eaf3fb;
-  border-left:4px solid var(--accent);
+  background: linear-gradient(90deg, #c9b037 0%, #e4002b 100%);
+  border-left:6px solid #e4002b;
   border-right:none;
-  box-shadow:0 1px 0 rgba(0,0,0,0.02);
+  box-shadow:0 2px 8px #e4002b22;
   font-weight:600;
-  border-radius:12px;
-  color:#111;
+  border-radius:16px;
+  color:#fff;
   padding:18px 18px 18px 16px;
   margin-top:8px;
 }
 .message.assistant{
   align-self:flex-start;
-  background:var(--card);
-  border:1px solid #dedede;
-  border-radius:12px;
+  background: linear-gradient(90deg, #fff4f7 60%, #fff8f6 100%);
+  border:2px solid #c9b037;
+  border-radius:16px;
   padding:18px;
   margin-top:8px;
   font-size:16px;
-  color:#222;
-  box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  color:#111;
+  box-shadow:0 2px 8px #c9b03722;
 }
 .chat{
   height:380px; /* adjust as needed */
@@ -153,13 +153,15 @@ body{
   font-size:15px;
 }
 .input-row button{
-  background:#111;
+  background: linear-gradient(90deg, #e4002b 60%, #c9b037 100%);
   color:#fff;
   border:none;
   padding:0 18px;
-  border-radius:4px;
+  border-radius:6px;
   font-size:16px;
   cursor:pointer;
+  font-weight:600;
+  box-shadow:0 2px 8px #e4002b22;
 }
 .input-row button:active{transform:translateY(1px)}
 .site-footer{
@@ -199,7 +201,7 @@ body{
   margin:24px auto;
   padding:18px;
 }
-.brand{ text-align:center; margin-bottom:16px }
+.brand{ text-align:center; margin-bottom:8px }
 .logo{
   display: flex;
   align-items: center;
@@ -229,12 +231,12 @@ body{
   box-shadow:0 2px 6px rgba(0,0,0,0.02);
 }
 .chat{
-  height:300px;
+  height:180px;
   overflow:auto;
-  padding:8px;
+  padding:4px;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:6px;
 }
 .message{
   max-width:86%;
@@ -266,9 +268,9 @@ body{
   color:#222;
 }
 .input-row{
-  margin-top:12px;
+  margin-top:6px;
   display:flex;
-  gap:8px;
+  gap:4px;
 }
 .input-row input[type='text']{
   flex:1;
@@ -286,15 +288,21 @@ body{
   font-size:16px;
   cursor:pointer;
 }
-.input-row button:active{transform:translateY(1px)}
+.input-row button:active{
+  transform:translateY(1px);
+  background: linear-gradient(90deg, #c9b037 60%, #e4002b 100%);
+}
 .site-footer{
   text-align:center;
   margin-top:20px;
-  color:var(--muted);
+  color:#c9b037;
+  background: linear-gradient(90deg, #fff8f6 60%, #fff4f7 100%);
+  border-radius:8px;
+  padding: 8px 0;
   font-size:14px;
 }
 .site-footer .links{margin-top:8px}
-.site-footer .links a{margin:0 8px; color:var(--muted); text-decoration:none}
+.site-footer .links a{margin:0 8px; color:#e4002b; text-decoration:none; font-weight:600;}
 
 /* Product grid modern card layout */
 .product-grid {
@@ -312,8 +320,8 @@ body{
   background: #fff;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   text-align: center;
-  padding: 24px 16px 18px 16px;
-  transition: box-shadow 0.2s, border-color 0.2s;
+    margin-top:8px;
+    padding: 4px 0;
   cursor: pointer;
   min-height: 320px;
   display: flex;
@@ -342,24 +350,26 @@ body{
 }
 .product .desc-btn {
   margin-top: 8px;
-  background: #e4002b;
+  background: linear-gradient(90deg, #e4002b 60%, #c9b037 100%);
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   padding: 4px 12px;
   font-size: 0.95rem;
   cursor: pointer;
+  font-weight:600;
+  box-shadow:0 2px 8px #e4002b22;
   transition: background 0.2s;
 }
 .product .desc-btn:hover {
-  background: #c10024;
+  background: linear-gradient(90deg, #c9b037 60%, #e4002b 100%);
 }
 .product.selected {
-  border: 2px solid #e4002b;
-  box-shadow: 0 0 0 2px #e4002b33;
+  border: 3px solid #e4002b;
+  box-shadow: 0 0 0 4px #e4002b33;
 }
 .product:hover {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+  box-shadow: 0 8px 24px #e4002b33;
   border-color: #e4002b;
 }
 .desc-modal {
